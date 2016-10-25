@@ -44,6 +44,7 @@ AES_KEY get_master_key(unsigned char *key1, unsigned char *key2)
     }
   close(fd);
   bitwise_xor(key1, key2, KEY_SIZE, raw_key);
+  raw_key[KEY_SIZE] = '\0';
   AES_set_decrypt_key(raw_key, KEY_SIZE * 8, &key);
   AES_decrypt((unsigned char *)buffer, raw_key, &key);
   AES_set_decrypt_key(raw_key, KEY_SIZE * 8, &key);
