@@ -6,7 +6,6 @@
 #define MASTER_KEY_SIZE	256
 #define CMD_SIZE	255
 #define CMD_COUNT	3
-#define MAX_ARGS	3
 
 typedef struct s_cmd
 {
@@ -22,13 +21,16 @@ unsigned char	*find_cb(const char *name);
 
 char		**parse_entry(char *buffer);
 
+int		char_count(char *buffer, char c);
+
 void		add_cb(const unsigned char *data);
 void		bitwise_xor(const unsigned char *n1, const unsigned char *n2, const int size, unsigned char *out);
 void		read_cmd();
 void		parse_cmd(char *buffer);
 
-void		cmd_add(char *arg);
-void		cmd_show(char *arg);
-void		cmd_exit(char *arg);
+void		cmd_add(char **args);
+void		cmd_show(char **args);
+void		cmd_exit(char **args);
+void		cmd_show_all(char **args);
 
 #endif

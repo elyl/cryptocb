@@ -1,5 +1,6 @@
 #include <openssl/aes.h>
 #include <stdio.h>
+#include <string.h>
 #include "proc.h"
 
 void read_cmd()
@@ -25,15 +26,39 @@ void read_cmd()
 
 char **parse_entry(char *buffer)
 {
-  char	*args[MAX_ARGS + 1];
+  char	**args;
   char	*ptr;
+  int	n;
 
-  
+  if ((args = malloc((char_count(buffer, ' ') + 2) * sizeof(char*))) == NULL)
+    {
+      frprintf(stderr, "Error while allocating memory\n");
+      exit (1);
+    }      
   args[0] = buffer;
+  ptr = strtok(buffer, ' ');
+  n = 1;
   while (ptr != NULL)
     {
-      
+      args[n++] = ptr;
+      ptr = strtok(NULL, ' ');
     }
+  args[n] = NULL;
+  return (args);
+}
+
+int char_count(char *buffer, char c)
+{
+  int	n;
+
+  n = 0;
+  while (*buffer)
+    {
+      if (*buffer == c)
+	++n;
+      ++buffer;
+    }
+  return (n);
 }
 
 void	parse_cmd(char *args)
