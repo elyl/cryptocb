@@ -21,13 +21,12 @@ void read_cmd()
     {
       printf("$>");
       fflush(stdout);
-      if ((n = read(0, &buffer[0], BUFFER_SIZE) == -1))
+      if ((n = read(0, &buffer, BUFFER_SIZE)) == -1)
 	{
 	  fprintf(stderr, "Error while reading cmd\n");
 	  exit(1);
 	}
-      printf("%d\n", n);
-      buffer[n] = '\0';
+      buffer[n - 1] = '\0';
       args = parse_entry(buffer);
       parse_cmd(args);
     }
@@ -37,7 +36,6 @@ void	parse_cmd(char **args)
 {
   int	i;
 
-  print_tab(args);
   i = 0;
   while (i < CMD_COUNT)
     {
@@ -65,11 +63,8 @@ char **parse_entry(char *buffer)
   args[0] = buffer;
   ptr = strtok(buffer, " ");
   n = 1;
-  while (ptr != NULL)
-    {
-      args[n++] = ptr;
-      ptr = strtok(NULL, " ");
-    }
+  while ((ptr = strtok(NULL, " ")) != NULL)
+    args[n++] = ptr;
   args[n] = NULL;
   return (args);
 }
