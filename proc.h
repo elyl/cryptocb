@@ -10,7 +10,7 @@
 typedef struct s_cmd
 {
   char	com[CMD_SIZE];
-  void	(*fn)(char*);
+  void	(*fn)(char**);
 }	t_cmd;
 
 extern t_cmd cmd_list[CMD_COUNT];
@@ -26,11 +26,12 @@ int		char_count(char *buffer, char c);
 void		add_cb(const unsigned char *data);
 void		bitwise_xor(const unsigned char *n1, const unsigned char *n2, const int size, unsigned char *out);
 void		read_cmd();
-void		parse_cmd(char *buffer);
+void		parse_cmd(char **args);
 
 void		cmd_add(char **args);
 void		cmd_show(char **args);
 void		cmd_exit(char **args);
 void		cmd_show_all(char **args);
+void		print_tab(char **tab);
 
 #endif

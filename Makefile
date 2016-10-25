@@ -1,5 +1,8 @@
 NAME=	proc
-SRC=	proc.c
+SRC=	proc.c		\
+	prompt.c	\
+	cmd.c		\
+	main.c
 OBJ=	$(SRC:.c=.o)
 CC=	gcc
 CFLAGS=	-W -Wall
