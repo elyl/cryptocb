@@ -8,8 +8,8 @@
 t_cmd cmd_list[CMD_COUNT] = {
   {"add", cmd_add},
   {"show", cmd_show},
+  {"show_all", cmd_show_all},
   {"exit", cmd_exit}};
-
 
 void read_cmd()
 {

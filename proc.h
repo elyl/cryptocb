@@ -5,7 +5,7 @@
 #define KEY_SIZE	8 * 4
 #define MASTER_KEY_SIZE	256
 #define CMD_SIZE	255
-#define CMD_COUNT	3
+#define CMD_COUNT	4
 #define AES_BLOCK_SIZE	16
 
 typedef struct s_cmd
@@ -21,8 +21,15 @@ typedef struct s_entry
   char	pin[3];
 }	t_entry;
 
+typedef struct s_util
+{
+  int			fd;
+  unsigned char		master_key[KEY_SIZE];
+}	t_util;
+
 extern t_cmd		cmd_list[CMD_COUNT];
 extern unsigned char	master_key[KEY_SIZE];
+extern t_util		utilities;
 
 unsigned char	*get_master_key(unsigned char *key1, unsigned char *key2);
 unsigned char	*find_cb(const char *name);
