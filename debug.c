@@ -40,11 +40,5 @@ void base_file()
   write(fd, buffer2, ENTRY_SIZE);
   AES_cbc_encrypt((unsigned char*)buffer, (unsigned char*)buffer2, ENTRY_SIZE, &key, iv, AES_ENCRYPT);
   write(fd, buffer2, ENTRY_SIZE);
-  AES_set_decrypt_key(master_key, MASTER_KEY_SIZE, &key);
-  memset(iv, 0, KEY_SIZE);
-  lseek(fd, 0, SEEK_SET);
-  read(fd, buffer, ENTRY_SIZE);
-  AES_cbc_encrypt((unsigned char*)buffer, (unsigned char*)buffer2, ENTRY_SIZE, &key, iv, AES_DECRYPT);
-  printf("%s\n", buffer2);
   close(fd);
 }

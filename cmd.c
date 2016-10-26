@@ -10,9 +10,9 @@
 void cmd_add(char **args)
 {
   unsigned char	iv[AES_BLOCK_SIZE];
-  unsigned char	out_buffer[BUFFER_SIZE];
+  unsigned char	out_buffer[ENTRY_SIZE];
   AES_KEY	key;
-  t_entry	new_entry;
+  union u_entry	new_entry;
 
   //TODO: Verifier que l'on a bien au moins ASE_BLOCK_SIZE donnees dans le fichier
   lseek(secret_file, -AES_BLOCK_SIZE, SEEK_END);
@@ -21,15 +21,14 @@ void cmd_add(char **args)
       fprintf(stderr, "Error reading from secret file\n");
       cmd_exit(NULL);
     }
-  //TODO: Remplacer par une union
-  memset(new_entry.name, 0, 29);
-  memcpy(new_entry.name, args[1], strlen(args[1]));
-  memcpy(new_entry.cb, args[2], 16);
-  memcpy(new_entry.pin, args[3], 3);
+  memset(new_entry.buffer, 0, ENTRY_SIZE);
+  memcpy(new_entry.buffer, args[1], MIN(strlen(args[1]), 29));
+  memcpy(new_entry.entry.cb, args[2], 16);
+  memcpy(new_entry.entry.pin, args[3], 3);
   //TODO: Verifier le bon formatage des donnees d'entree
-  AES_set_encrypt_key(master_key, KEY_SIZE, &key);
-  AES_cbc_encrypt((unsigned char*)&new_entry, out_buffer, sizeof(t_entry), &key, iv, AES_ENCRYPT);
-  write(secret_file, out_buffer, sizeof(t_entry));
+  AES_set_encrypt_key(master_key, MASTER_KEY_SIZE, &key);
+  AES_cbc_encrypt(new_entry.buffer, out_buffer, ENTRY_SIZE, &key, iv, AES_ENCRYPT);
+  write(secret_file, out_buffer, ENTRY_SIZE);
 }
 
 void cmd_show(char **args)

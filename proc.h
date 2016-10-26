@@ -9,6 +9,8 @@
 #define ENTRY_SIZE 	48
 #define BUFFER_SIZE	ENTRY_SIZE * 50
 
+#define MIN(x, y) (x < y) ? x : y
+
 typedef struct s_cmd
 {
   char	com[CMD_SIZE];
