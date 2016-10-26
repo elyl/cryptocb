@@ -33,9 +33,32 @@ void cmd_add(char **args)
 
 void cmd_show(char **args)
 {
-  args = args;
-  print_tab(args);
-  printf("show not yet implemented\n");
+  unsigned char	buffer[BUFFER_SIZE];
+  unsigned char	iv[AES_BLOCK_SIZE];
+  int		n;
+  int		i;
+  AES_KEY	key;
+  union u_entry	entry;
+  
+  memset(iv, 0, AES_BLOCK_SIZE);
+  AES_set_decrypt_key(master_key, MASTER_KEY_SIZE, &key);
+  lseek(secret_file, 0, SEEK_SET);
+  while ((n = read(secret_file, buffer, BUFFER_SIZE)) != 0)
+    {
+      i = 0;
+      while (i < n)
+	{
+	  memset(entry.entry.name, 0, 29);
+	  AES_cbc_encrypt(&buffer[i], entry.buffer, ENTRY_SIZE, &key, iv, AES_DECRYPT);
+	  if (strcmp(entry.entry.name, args[1]) == 0)
+	    {
+	      print_entry(&entry.entry);
+	      return;
+	    }
+	  i += ENTRY_SIZE;
+	}
+    }
+  printf("%s not found\n", args[1]);
 }
 
 void cmd_exit(char **args)
