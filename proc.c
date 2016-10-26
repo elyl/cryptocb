@@ -8,9 +8,10 @@
 #include <fcntl.h>
 #include "proc.h"
 
-AES_KEY	master_key;
+unsigned char	master_key[KEY_SIZE];
 
-AES_KEY get_master_key(unsigned char *key1, unsigned char *key2)
+//TODO: Refaire avec des bytes
+/*AES_KEY get_master_key(unsigned char *key1, unsigned char *key2)
 {
   int		fd;
   char		buffer[BUFFER_SIZE + 1];
@@ -36,7 +37,7 @@ AES_KEY get_master_key(unsigned char *key1, unsigned char *key2)
   memset(raw_key, 0, KEY_SIZE + 1);
   memset(buffer, 0, BUFFER_SIZE + 1);
   return (key);
-}
+}*/
 
 void	bitwise_xor(const unsigned char *n1, const unsigned char *n2, const int size, unsigned char *out)
 {

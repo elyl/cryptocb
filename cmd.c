@@ -4,6 +4,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <openssl/aes.h>
 #include "proc.h"
 
 void print_tab(char **tab)
@@ -23,6 +24,8 @@ void cmd_add(char **args)
   int		fd;
   unsigned char	iv[AES_BLOCK_SIZE];
   unsigned char	out_buffer[BUFFER_SIZE];
+  AES_KEY	key;
+  t_entry	new_entry;
 
   //TODO: Passer le fichier en global
   if ((fd = open("secret_file", O_RDWR)) == -1)
@@ -37,10 +40,14 @@ void cmd_add(char **args)
       fprintf(stderr, "Error reading from secret file\n");
       cmd_exit(NULL);
     }
-  //TODO: Concatener l'ensemble des donnees pour faire une seule chaine
-  //TODO: Formater les donnees pour avoir des enregistrements de forme standard
+  memset(new_entry.name, 0, 29);
+  memcpy(new_entry.name, args[1], strlen(args[1]));
+  memcpy(new_entry.cb, args[2], 16);
+  memcpy(new_entry.pin, args[3], 3);
   //TODO: Verifier le bon formatage des donnes d'entree
-  AES_cbc_encrypt(args[1], out_buffer, strlen(args[1]), &master_key, iv, 256);
+  AES_set_encrypt_key(master_key, KEY_SIZE, &key);
+  AES_cbc_encrypt((unsigned char*)&new_entry, out_buffer, sizeof(t_entry), &key, iv, KEY_SIZE);
+  write(fd, out_buffer, sizeof(t_entry));
 }
 
 void cmd_show(char **args)

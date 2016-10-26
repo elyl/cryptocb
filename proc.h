@@ -1,8 +1,6 @@
 #ifndef __PROC_H__
 #define __PROC_H__
 
-#include <openssl/aes.h>
-
 #define BUFFER_SIZE	2048
 #define KEY_SIZE	8 * 4
 #define MASTER_KEY_SIZE	256
@@ -16,11 +14,17 @@ typedef struct s_cmd
   void	(*fn)(char**);
 }	t_cmd;
 
-extern t_cmd	cmd_list[CMD_COUNT];
-extern AES_KEY	master_key;
+typedef struct s_entry
+{
+  char	name[29];
+  char	cb[16];
+  char	pin[3];
+}	t_entry;
 
-AES_KEY		get_master_key(unsigned char *key1, unsigned char *key2);
+extern t_cmd		cmd_list[CMD_COUNT];
+extern unsigned char	master_key[KEY_SIZE];
 
+unsigned char	*get_master_key(unsigned char *key1, unsigned char *key2);
 unsigned char	*find_cb(const char *name);
 
 char		**parse_entry(char *buffer);
