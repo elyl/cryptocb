@@ -60,10 +60,20 @@ void cmd_show_all(char **args)
 {
   unsigned char	buffer[BUFFER_SIZE];
   int		n;
+  union u_entry	entry;
+  AES_KEY	key;
 
+  lseek(secret_file, -BUFFER_SIZE, SEEK_END);
   while ((n = read(secret_file, buffer, BUFFER_SIZE)) != 0)
     {
-      
+      while (n > 0)
+	{
+	  n -= ENTRY_SIZE;
+	  AES_set_decrypt_key(master_key, MASTER_KEY_SIZE, &key);
+	  //AES_cbc_decrypt(&buffer[n], entry.buffer, ENTRY_SIZE, &key, iv, MASTER_KEY_SIZE);
+	  print_entry(&entry.entry);
+	}
+      lseek(secret_file, -BUFFER_SIZE * 2, SEEK_CUR);
     }
 }
 

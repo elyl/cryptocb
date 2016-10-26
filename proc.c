@@ -26,34 +26,32 @@ void open_secret_file()
     }
 }
 
-//TODO: Refaire avec des bytes
-/*AES_KEY get_master_key(unsigned char *key1, unsigned char *key2)
+unsigned char	*get_master_key(unsigned char *key1, unsigned char *key2)
 {
   int		fd;
-  char		buffer[BUFFER_SIZE + 1];
+  char		buffer[KEY_SIZE];
   AES_KEY	key;
-  unsigned char	raw_key[KEY_SIZE + 1];
+  unsigned char	iv[AES_BLOCK_SIZE];
+  unsigned char	raw_key[KEY_SIZE];
 
   if ((fd = open("master_key", O_RDONLY)) == -1)
     {
       fprintf(stderr, "Error while opening master key file\n");
       exit(EXIT_FAILURE);
     }
-  if (read(fd, buffer, MASTER_KEY_SIZE) != MASTER_KEY_SIZE)
+  if (read(fd, buffer, KEY_SIZE) != KEY_SIZE)
     {
       fprintf(stderr, "Error while reading master key file\n");
       exit(EXIT_FAILURE);
     }
   close(fd);
   bitwise_xor(key1, key2, KEY_SIZE, raw_key);
-  raw_key[KEY_SIZE] = '\0';
-  AES_set_decrypt_key(raw_key, KEY_SIZE * 8, &key);
-  AES_decrypt((unsigned char *)buffer, raw_key, &key);
-  AES_set_decrypt_key(raw_key, KEY_SIZE * 8, &key);
-  memset(raw_key, 0, KEY_SIZE + 1);
-  memset(buffer, 0, BUFFER_SIZE + 1);
-  return (key);
-}*/
+  memset(iv, 0, AES_BLOCK_SIZE);
+  AES_set_decrypt_key(raw_key, MASTER_KEY_SIZE, &key);
+  AES_cbc_encrypt((unsigned char *)buffer, master_key, KEY_SIZE, &key, iv, AES_DECRYPT);
+  memset(raw_key, 0, KEY_SIZE);
+  return (master_key);
+}
 
 void	bitwise_xor(const unsigned char *n1, const unsigned char *n2, const int size, unsigned char *out)
 {
