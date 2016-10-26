@@ -8,22 +8,7 @@
 #include <fcntl.h>
 #include "proc.h"
 
-/*int main(int agrc, char **argv)
-{
-  unsigned char in[] = "toto";
-  unsigned char out[2000];
-  unsigned char out2[2000];
-  unsigned char cipher[] = "aaaaaaaaaaaaaaaa";
-  AES_KEY	key;
-
-  AES_set_encrypt_key(cipher, 128, &key);
-  AES_encrypt(in, out, &key);
-  
-  AES_set_decrypt_key(cipher, 128, &key);
-  AES_decrypt(out, out2, &key);
-  printf("%x %x %x %x\n", out2[0], out2[1],out2[2], out2[3]);
-  return (0);
-  }*/
+AES_KEY	master_key;
 
 AES_KEY get_master_key(unsigned char *key1, unsigned char *key2)
 {
