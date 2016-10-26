@@ -1,12 +1,13 @@
 #ifndef __PROC_H__
 #define __PROC_H__
 
-#define BUFFER_SIZE	2048
 #define KEY_SIZE	8 * 4
 #define MASTER_KEY_SIZE	256
 #define CMD_SIZE	255
 #define CMD_COUNT	4
 #define AES_BLOCK_SIZE	16
+#define ENTRY_SIZE 	48
+#define BUFFER_SIZE	ENTRY_SIZE * 50
 
 typedef struct s_cmd
 {
@@ -20,6 +21,12 @@ typedef struct s_entry
   char	cb[16];
   char	pin[3];
 }	t_entry;
+
+union u_entry
+{
+  unsigned char	buffer[ENTRY_SIZE];
+  t_entry	entry;
+};
 
 extern t_cmd		cmd_list[CMD_COUNT];
 extern unsigned char	master_key[KEY_SIZE];
@@ -45,5 +52,6 @@ void		cmd_show(char **args);
 void		cmd_exit(char **args);
 void		cmd_show_all(char **args);
 void		print_tab(char **tab);
+void		print_entry(t_entry *entry);
 
 #endif

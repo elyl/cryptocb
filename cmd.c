@@ -33,11 +33,12 @@ void cmd_add(char **args)
       fprintf(stderr, "Error reading from secret file\n");
       cmd_exit(NULL);
     }
+  //TODO: Remplacer par une union
   memset(new_entry.name, 0, 29);
   memcpy(new_entry.name, args[1], strlen(args[1]));
   memcpy(new_entry.cb, args[2], 16);
   memcpy(new_entry.pin, args[3], 3);
-  //TODO: Verifier le bon formatage des donnes d'entree
+  //TODO: Verifier le bon formatage des donnees d'entree
   AES_set_encrypt_key(master_key, KEY_SIZE, &key);
   AES_cbc_encrypt((unsigned char*)&new_entry, out_buffer, sizeof(t_entry), &key, iv, KEY_SIZE);
   write(secret_file, out_buffer, sizeof(t_entry));
@@ -57,6 +58,16 @@ void cmd_exit(char **args)
 
 void cmd_show_all(char **args)
 {
-  print_tab(args);
-  printf("show_all not yet implemented\n");
+  unsigned char	buffer[BUFFER_SIZE];
+  int		n;
+
+  while ((n = read(secret_file, buffer, BUFFER_SIZE)) != 0)
+    {
+      
+    }
+}
+
+void print_entry(t_entry *entry)
+{
+  printf("Name : %s; CB : %s; PIN : %s\n", entry->name, entry->cb, entry->pin);
 }
