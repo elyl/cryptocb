@@ -1,5 +1,0 @@
-#include <openssl/aes.h>
-#include <stdio.h>
-#include <string.h>
-#include "proc.h"
-
