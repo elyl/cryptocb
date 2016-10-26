@@ -21,15 +21,9 @@ typedef struct s_entry
   char	pin[3];
 }	t_entry;
 
-typedef struct s_util
-{
-  int			fd;
-  unsigned char		master_key[KEY_SIZE];
-}	t_util;
-
 extern t_cmd		cmd_list[CMD_COUNT];
 extern unsigned char	master_key[KEY_SIZE];
-extern t_util		utilities;
+extern int		secret_file;
 
 unsigned char	*get_master_key(unsigned char *key1, unsigned char *key2);
 unsigned char	*find_cb(const char *name);

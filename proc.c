@@ -9,6 +9,7 @@
 #include "proc.h"
 
 unsigned char	master_key[KEY_SIZE];
+int		secret_file;
 
 //TODO: Refaire avec des bytes
 /*AES_KEY get_master_key(unsigned char *key1, unsigned char *key2)
