@@ -51,7 +51,13 @@ void		cmd_add(char **args);
 void		cmd_show(char **args);
 void		cmd_exit(char **args);
 void		cmd_show_all(char **args);
-void		print_tab(char **tab);
 void		print_entry(t_entry *entry);
+
+void		print_key(unsigned char *key);
+void		print_tab(char **tab);
+
+void		new_key();
+void		generate_key_pair(unsigned char *key1, unsigned char *key2);
+void		generate_master_key(unsigned char *key1, unsigned char *key2);
 
 #endif

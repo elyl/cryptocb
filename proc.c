@@ -50,6 +50,7 @@ unsigned char	*get_master_key(unsigned char *key1, unsigned char *key2)
   AES_set_decrypt_key(raw_key, MASTER_KEY_SIZE, &key);
   AES_cbc_encrypt((unsigned char *)buffer, master_key, KEY_SIZE, &key, iv, AES_DECRYPT);
   memset(raw_key, 0, KEY_SIZE);
+  print_key(master_key); //DEBUG
   return (master_key);
 }
 

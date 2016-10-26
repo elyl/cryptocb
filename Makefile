@@ -2,6 +2,8 @@ NAME=	proc
 SRC=	proc.c		\
 	prompt.c	\
 	cmd.c		\
+	key_generator.c	\
+	debug.c		\
 	main.c
 OBJ=	$(SRC:.c=.o)
 CC=	gcc

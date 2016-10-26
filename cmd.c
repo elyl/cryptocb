@@ -7,18 +7,6 @@
 #include <openssl/aes.h>
 #include "proc.h"
 
-void print_tab(char **tab)
-{
-  int	i;
-
-  i = 0;
-  while (tab[i] != NULL)
-    {
-      printf("%s\n", tab[i]);
-      ++i;
-    }
-}
-
 void cmd_add(char **args)
 {
   unsigned char	iv[AES_BLOCK_SIZE];
