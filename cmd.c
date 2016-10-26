@@ -21,21 +21,14 @@ void print_tab(char **tab)
 
 void cmd_add(char **args)
 {
-  int		fd;
   unsigned char	iv[AES_BLOCK_SIZE];
   unsigned char	out_buffer[BUFFER_SIZE];
   AES_KEY	key;
   t_entry	new_entry;
 
-  //TODO: Passer le fichier en global
-  if ((fd = open("secret_file", O_RDWR)) == -1)
-    {
-      fprintf(stderr, "Error opening secret file\n");
-      cmd_exit(NULL);
-    }
   //TODO: Verifier que l'on a bien au moins ASE_BLOCK_SIZE donnees dans le fichier
-  lseek(fd, -AES_BLOCK_SIZE, SEEK_END);
-  if (read(fd, iv, AES_BLOCK_SIZE) == -1)
+  lseek(secret_file, -AES_BLOCK_SIZE, SEEK_END);
+  if (read(secret_file, iv, AES_BLOCK_SIZE) == -1)
     {
       fprintf(stderr, "Error reading from secret file\n");
       cmd_exit(NULL);
@@ -47,7 +40,7 @@ void cmd_add(char **args)
   //TODO: Verifier le bon formatage des donnes d'entree
   AES_set_encrypt_key(master_key, KEY_SIZE, &key);
   AES_cbc_encrypt((unsigned char*)&new_entry, out_buffer, sizeof(t_entry), &key, iv, KEY_SIZE);
-  write(fd, out_buffer, sizeof(t_entry));
+  write(secret_file, out_buffer, sizeof(t_entry));
 }
 
 void cmd_show(char **args)
