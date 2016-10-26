@@ -11,6 +11,21 @@
 unsigned char	master_key[KEY_SIZE];
 int		secret_file;
 
+void init(unsigned char *key1, unsigned char *key2)
+{
+  get_master_key(key1, key2);
+  open_secret_file();
+}
+
+void open_secret_file()
+{
+  if ((secret_file = open("secret_file", O_RDWR)) == -1)
+    {
+      fprintf(stderr, "Error opening the secret file\n");
+      cmd_exit(NULL);
+    }
+}
+
 //TODO: Refaire avec des bytes
 /*AES_KEY get_master_key(unsigned char *key1, unsigned char *key2)
 {

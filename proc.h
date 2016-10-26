@@ -37,6 +37,9 @@ void		bitwise_xor(const unsigned char *n1, const unsigned char *n2, const int si
 void		read_cmd();
 void		parse_cmd(char **args);
 
+void		init(unsigned char *key1, unsigned char *key2);
+void		open_secret_file();
+
 void		cmd_add(char **args);
 void		cmd_show(char **args);
 void		cmd_exit(char **args);
