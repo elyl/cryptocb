@@ -21,7 +21,6 @@ typedef struct s_entry
   char	cb[16];
   char	pin[3];
 }	t_entry;
-
 union u_entry
 {
   unsigned char	buffer[ENTRY_SIZE];
@@ -55,6 +54,7 @@ void		print_entry(t_entry *entry);
 
 void		print_key(unsigned char *key);
 void		print_tab(char **tab);
+void		base_file();
 
 void		new_key();
 void		generate_key_pair(unsigned char *key1, unsigned char *key2);

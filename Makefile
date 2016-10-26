@@ -7,7 +7,7 @@ SRC=	proc.c		\
 	main.c
 OBJ=	$(SRC:.c=.o)
 CC=	gcc
-CFLAGS=	-W -Wall
+CFLAGS=	-W -Wall -g
 LIB=	-lcrypto
 RM=	@rm -fv
 

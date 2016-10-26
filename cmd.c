@@ -51,6 +51,7 @@ void cmd_show_all(char **args)
   unsigned char	buffer[BUFFER_SIZE];
   unsigned char iv[AES_BLOCK_SIZE];
   int		n;
+  int		i;
   union u_entry	entry;
   AES_KEY	key;
 
@@ -60,17 +61,27 @@ void cmd_show_all(char **args)
   lseek(secret_file, 0, SEEK_SET);
   while ((n = read(secret_file, buffer, BUFFER_SIZE)) != 0)
     {
-      while (n < BUFFER_SIZE)
+      i = 0;
+      while (i < n)
 	{
-	  AES_cbc_encrypt(&buffer[n], entry.buffer, ENTRY_SIZE, &key, iv, AES_DECRYPT);
+	  AES_cbc_encrypt(&buffer[i], entry.buffer, ENTRY_SIZE, &key, iv, AES_DECRYPT);
 	  print_entry(&entry.entry);
-	  n += ENTRY_SIZE;
+	  i += ENTRY_SIZE;
 	}
-      lseek(secret_file, -BUFFER_SIZE * 2, SEEK_CUR);
     }
 }
 
 void print_entry(t_entry *entry)
 {
-  printf("Name : %s; CB : %s; PIN : %s\n", entry->name, entry->cb, entry->pin);
+  char	name[30];
+  char	cb[17];
+  char	pin[4];
+
+  memcpy(name, entry->name, 29);
+  name[29] = '\0';
+  memcpy(cb, entry->cb, 16);
+  cb[16] = '0';
+  memcpy(pin, entry->pin, 3);
+  pin[3] = '\0';
+  printf("Name : %s; CB : %s; PIN : %s\n", name, cb, pin);
 }

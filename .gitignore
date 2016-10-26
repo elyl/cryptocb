@@ -38,3 +38,6 @@ a.out
 
 # Test files
 test.c
+
+# Tmp files
+*~

@@ -11,6 +11,7 @@ int main(int argc, char **argv)
       return (1);
     }
   init((unsigned char*)argv[1], (unsigned char*)argv[2]);
+  base_file();
   read_cmd();
   return (0);
 }
